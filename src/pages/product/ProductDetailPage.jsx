@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router';
 import { Header } from '../../components/Header';
 import { ReviewsSection } from './ReviewsSection';
 import { formatMoney } from '../../utils/money';
+import { getImageUrl } from '../../utils/imageUrl';
 import './ProductDetailPage.css';
 
 export function ProductDetailPage({ cart, loadCart }) {
@@ -13,7 +14,6 @@ export function ProductDetailPage({ cart, loadCart }) {
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
 
-  // Load product
   const loadProduct = async () => {
     try {
       const response = await axios.get(`/api/products/${id}`);
@@ -29,7 +29,6 @@ export function ProductDetailPage({ cart, loadCart }) {
     loadProduct();
   }, [id]);
 
-  // Handle add to cart
   const handleAddToCart = async () => {
     setAddingToCart(true);
     try {
@@ -47,8 +46,6 @@ export function ProductDetailPage({ cart, loadCart }) {
     }
   };
 
-  // Called by ReviewsSection when a new review is added
-  // So the rating updates without a full page reload
   const handleReviewChange = () => {
     loadProduct();
   };
@@ -87,7 +84,7 @@ export function ProductDetailPage({ cart, loadCart }) {
         <div className="product-detail-card">
           {/* Image */}
           <div className="product-image-section">
-            <img src={product.image} alt={product.name} />
+            <img src={getImageUrl(product.image)} alt={product.name} />
           </div>
 
           {/* Info */}
@@ -120,7 +117,6 @@ export function ProductDetailPage({ cart, loadCart }) {
               ))}
             </div>
 
-            {/* Quantity + Add to Cart */}
             <div className="purchase-section">
               <div className="quantity-selector">
                 <label>Quantity:</label>
@@ -145,7 +141,6 @@ export function ProductDetailPage({ cart, loadCart }) {
           </div>
         </div>
 
-        {/* Reviews Section */}
         <ReviewsSection productId={product.id} onReviewChange={handleReviewChange} />
       </div>
     </>

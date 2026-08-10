@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
+import { getImageUrl } from '../../utils/imageUrl';
 import './ViewOrders.css';
 
 type Product = {
@@ -174,7 +175,7 @@ export function ViewOrders() {
                   {item.product ? (
                     <>
                       <img
-                        src={item.product.image}
+                        src={getImageUrl(item.product.image)}
                         alt={item.product.name}
                         className="product-img"
                       />

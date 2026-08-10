@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
+import { getImageUrl } from '../../utils/imageUrl';
 import './ManageProducts.css';
 
 type Product = {
@@ -19,11 +20,8 @@ export function ManageProducts() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searching, setSearching] = useState(false);
 
-  // Load products - accepts optional search term
   const loadProducts = async (search = '') => {
     try {
-      // If search is empty, call /api/products
-      // If search has text, call /api/products?search=shoes
       const url = search
         ? `/api/products?search=${encodeURIComponent(search)}`
         : '/api/products';
@@ -38,27 +36,18 @@ export function ManageProducts() {
     }
   };
 
-  // Run on first page load only (empty search)
   useEffect(() => {
     loadProducts();
   }, []);
 
-  // Run every time searchQuery changes, but wait 400ms first (debounce)
   useEffect(() => {
-    // Don't run on first render - let the useEffect above handle that
     setSearching(true);
-
-    // Start a timer - if user types again before 400ms,
-    // this timer gets cancelled and restarted
     const timer = setTimeout(() => {
       loadProducts(searchQuery);
     }, 400);
-
-    // Cleanup: cancel the timer if searchQuery changes again
     return () => clearTimeout(timer);
-  }, [searchQuery]); // <- only re-runs when searchQuery changes
+  }, [searchQuery]);
 
-  // Handle delete
   const handleDelete = async (productId: string, productName: string) => {
     const confirmed = window.confirm(
       `Are you sure you want to delete "${productName}"?`
@@ -68,19 +57,17 @@ export function ManageProducts() {
     try {
       await axios.delete(`/api/products/${productId}`);
       alert('Product deleted successfully! ✅');
-      loadProducts(searchQuery); // reload with current search still applied
+      loadProducts(searchQuery);
     } catch (error) {
       console.error(error);
       alert('Failed to delete product ❌');
     }
   };
 
-  // Handle edit
   const handleEdit = (productId: string) => {
     navigate(`/admin/products/edit/${productId}`);
   };
 
-  // Handle clear search button
   const handleClearSearch = () => {
     setSearchQuery('');
   };
@@ -107,7 +94,6 @@ export function ManageProducts() {
         </div>
       </div>
 
-      {/* Search Bar */}
       <div className="search-bar">
         <input
           type="text"
@@ -116,7 +102,6 @@ export function ManageProducts() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="search-input"
         />
-        {/* Only show X button when there is text in the search */}
         {searchQuery && (
           <button className="clear-btn" onClick={handleClearSearch}>
             ✕
@@ -124,23 +109,19 @@ export function ManageProducts() {
         )}
       </div>
 
-      {/* Results count line */}
       <p className="count">
         {searching ? (
           'Searching...'
         ) : searchQuery ? (
-          // e.g. 3 results for "shoes"
           <>
             {products.length} result{products.length !== 1 ? 's' : ''} for{' '}
             <strong>"{searchQuery}"</strong>
           </>
         ) : (
-          // e.g. Total Products: 20
           `Total Products: ${products.length}`
         )}
       </p>
 
-      {/* No results message */}
       {!searching && products.length === 0 && (
         <div className="no-results">
           <p>No products found for "<strong>{searchQuery}</strong>"</p>
@@ -150,7 +131,6 @@ export function ManageProducts() {
         </div>
       )}
 
-      {/* Products Table */}
       {products.length > 0 && (
         <table className="products-table">
           <thead>
@@ -167,7 +147,7 @@ export function ManageProducts() {
               <tr key={product.id}>
                 <td>
                   <img
-                    src={product.image}
+                    src={getImageUrl(product.image)}
                     alt={product.name}
                     className="product-img"
                   />

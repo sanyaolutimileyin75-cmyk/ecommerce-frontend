@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router';
+import { getImageUrl } from '../../utils/imageUrl';
 import './AddProduct.css'; // Reusing the same CSS
 
 type Category = {
@@ -144,7 +145,7 @@ export function EditProduct() {
         <div className="form-group">
           <label>Current Image</label>
           <div className="image-preview">
-            <img src={currentImage} alt="Current" />
+            <img src={getImageUrl(currentImage)} alt="Current" />
           </div>
 
           <label style={{ marginTop: '15px' }}>Change Image (optional)</label>

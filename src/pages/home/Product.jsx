@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { formatMoney } from "../../utils/money";
+import { getImageUrl } from "../../utils/imageUrl";
 import axios from "axios";
 
 export function Product({ product, loadCart }) {
@@ -21,17 +22,15 @@ export function Product({ product, loadCart }) {
 
   return (
     <div className="product-container" data-testid="product-container">
-      {/* Clickable image → go to product detail page */}
       <Link to={`/product/${product.id}`} className="product-image-container product-link">
         <img
           className="product-image"
           data-testid="product-image"
-          src={product.image}
+          src={getImageUrl(product.image)}
           alt={product.name}
         />
       </Link>
 
-      {/* Clickable name → go to product detail page */}
       <Link to={`/product/${product.id}`} className="product-name limit-text-to-2-lines product-link">
         {product.name}
       </Link>
@@ -40,7 +39,7 @@ export function Product({ product, loadCart }) {
         <img
           className="product-rating-stars"
           data-testid="product-rating-stars-image"
-          src={`images/ratings/rating-${product.rating.stars * 10}.png`}
+          src={getImageUrl(`images/ratings/rating-${product.rating.stars * 10}.png`)}
         />
         <div className="product-rating-count link-primary">
           {product.rating.count}
@@ -69,7 +68,7 @@ export function Product({ product, loadCart }) {
       <div className="product-spacer"></div>
 
       <div className="added-to-cart">
-        <img src="images/icons/checkmark.png" />
+        <img src={getImageUrl("images/icons/checkmark.png")} />
         Added
       </div>
 
