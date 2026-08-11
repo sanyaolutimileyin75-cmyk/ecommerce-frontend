@@ -1,123 +1,140 @@
+/* ================================
+   HEADER - BASE (desktop)
+   ================================ */
 .header {
   background-color: rgb(8, 79, 45);
   color: white;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 0 20px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 15px;
 
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 60px;
+  z-index: 1000;
+  box-sizing: border-box;  /* prevents overflow */
 }
 
-.header .left-section {
-  width: 208px;
+/* ── SECTIONS ── */
+.header__left {
+  flex-shrink: 0;
 }
 
-@media (max-width: 800px) {
-  .header .left-section {
-    width: unset;
-  }
+.header__middle {
+  flex: 1;
+  max-width: 850px;
+  display: flex;
+  min-width: 0;  /* allows flex child to shrink */
 }
 
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ================================
+   BRAND LOGO (Text-based)
+   ================================ */
+.logo-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.brand-logo {
+  font-family: 'Roboto', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+.brand-logo:hover {
+  opacity: 0.85;
+}
+
+.brand-logo__accent {
+  color: rgb(186, 255, 190); /* light green accent */
+}
+
+/* ── LINKS ── */
 .header .header-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   padding: 6px 9.5px;
   border-radius: 2px;
   cursor: pointer;
   text-decoration: none;
-  border: 1px solid rgba(0, 0, 0, 0);
+  color: white;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
 }
 
 .header .header-link:hover {
-  border: 1px solid white;
+  border-color: white;
 }
 
-.header .logo {
-  height: 26px;
-  margin-top: 1px;
+.header .logo-link:hover {
+  border-color: transparent;
 }
 
-.header .mobile-logo {
-  display: none;
-}
-
-@media (max-width: 675px) {
-  .header .logo {
-    display: none;
-  }
-
-  .header .mobile-logo {
-    display: block;
-    height: 26px;
-    margin-top: 1px;
-  }
-}
-
-.header .middle-section {
-  flex: 1;
-  max-width: 850px;
-  margin-left: 10px;
-  margin-right: 10px;
-  display: flex;
-}
-
+/* ── SEARCH BAR (desktop) ── */
 .header .search-bar {
   flex: 1;
   width: 0;
+  min-width: 0;
   font-size: 16px;
   height: 38px;
   padding-left: 15px;
   border: none;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-radius: 5px 0 0 5px;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.header .search-bar:focus {
+  outline: none;
 }
 
 .header .search-button {
   background-color: rgb(186, 255, 190);
   border: none;
   width: 45px;
-  height: 40px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  height: 38px;
+  border-radius: 0 5px 5px 0;
   flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header .search-icon {
   height: 20px;
-  margin-left: 0px;
-  margin-top: 3px;
 }
 
-.header .right-section {
-  width: 180px;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: end;
-}
-
+/* ── ORDERS ── */
 .header .orders-link {
   color: white;
-
-  display: flex;
-  align-items: center;
   padding-left: 13px;
   padding-right: 13px;
 }
 
 .header .orders-text {
-  display: block;
   font-size: 15px;
   font-weight: 700;
 }
 
+/* ── CART ── */
 .header .cart-link {
   color: white;
   display: flex;
@@ -137,13 +154,295 @@
 
 .header .cart-quantity {
   color: rgb(8, 79, 45);
-  font-size: 14px;
+  background: rgb(186, 255, 190);
+  font-size: 12px;
   font-weight: 700;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   position: absolute;
-  top: 8.5px;
-  right: 46px;
+  top: 4px;
+  left: 20px;
+}
 
-  width: 26px;
-  text-align: center;
+/* ── ICON BUTTON (hamburger + search toggle) ── */
+.icon-btn {
+  background: none;
+  border: none;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── HAMBURGER ── */
+.hamburger {
+  flex-direction: column;
+  gap: 5px;
+  display: none; /* hidden on desktop */
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: white;
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s;
+  transform-origin: center;
+}
+
+/* animate to X when open */
+.hamburger--open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger--open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger--open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* mobile search toggle – hidden on desktop */
+.mobile-search-toggle {
+  display: none;
+}
+
+/* ── MOBILE SEARCH BAR ── */
+.mobile-search-bar {
+  position: fixed;
+  top: 60px; /* below header */
+  left: 0;
+  right: 0;
+  background: rgb(8, 79, 45);
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  z-index: 999;
+  box-sizing: border-box;
+
+  /* collapsed */
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease, padding 0.25s ease;
+}
+
+.mobile-search-bar--open {
+  max-height: 70px;
+  padding: 10px 12px;
+}
+
+.mobile-search-bar input {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  height: 40px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 5px 0 0 5px;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.mobile-search-bar input:focus {
+  outline: none;
+}
+
+.mobile-search-bar .search-button {
+  background-color: rgb(186, 255, 190);
+  border: none;
+  width: 45px;
+  height: 40px;
+  border-radius: 0 5px 5px 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── DRAWER OVERLAY ── */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1001;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── SIDE DRAWER ── */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 260px;
+  max-width: 85vw;
+  background: white;
+  z-index: 1002;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer--open {
+  transform: translateX(0);
+}
+
+.drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: rgb(8, 79, 45);
+  color: white;
+}
+
+.drawer__title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.drawer__close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.drawer__close:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.drawer__links {
+  list-style: none;
+  padding: 12px 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.drawer__links li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  color: rgb(33, 33, 33);
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid rgb(240, 240, 240);
+  transition: background 0.15s;
+  min-height: 52px;
+}
+
+.drawer__links li a:hover {
+  background: rgb(245, 250, 247);
+  color: rgb(8, 79, 45);
+}
+
+.drawer__badge {
+  margin-left: auto;
+  background: rgb(8, 79, 45);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 50%;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================================
+   RESPONSIVE BREAKPOINTS
+   ================================ */
+
+/* ── tablet ── */
+@media (max-width: 800px) {
+  .header {
+    padding: 0 15px;
+  }
+}
+
+/* ── mobile ── */
+@media (max-width: 675px) {
+  /* smaller brand logo on mobile */
+  .brand-logo {
+    font-size: 22px;
+  }
+
+  /* hide desktop middle search */
+  .header__middle {
+    display: none;
+  }
+
+  /* show mobile controls */
+  .hamburger {
+    display: flex;
+  }
+  .mobile-search-toggle {
+    display: flex;
+  }
+
+  /* hide Orders text link (it lives in the drawer) */
+  .header .orders-link {
+    display: none;
+  }
+
+  /* hide Cart text on very small screens */
+  .header .cart-text {
+    display: none;
+  }
+
+  .header .cart-icon {
+    width: 30px;
+  }
+}
+
+/* ── very small screens ── */
+@media (max-width: 380px) {
+  .brand-logo {
+    font-size: 20px;
+  }
+
+  .header {
+    padding: 0 10px;
+  }
 }

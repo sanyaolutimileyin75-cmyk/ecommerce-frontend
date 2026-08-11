@@ -1,72 +1,149 @@
-body {
-  font-family: Roboto, Arial;
-  color: rgb(33, 33, 33);
-  /* The <body> element has a default margin of 8px
-     on all sides. This removes the default margins. */
-  margin: 0;
+/* ================================
+   CSS VARIABLES
+   ================================ */
+:root {
+  --color-primary: rgb(8, 79, 45);
+  --color-primary-light: rgba(8, 79, 45, 0.75);
+  --color-primary-lighter: rgba(8, 79, 45, 0.5);
+  --color-primary-btn: rgb(25, 135, 84);
+  --color-primary-btn-hover: rgba(25, 135, 84, 0.75);
+  --color-primary-btn-active: rgba(25, 135, 84, 0.5);
+  --color-text: rgb(33, 33, 33);
+  --color-text-light: rgb(100, 100, 100);
+  --color-border: rgb(200, 200, 200);
+  --color-bg: rgb(255, 255, 255);
+  --color-bg-light: rgb(250, 250, 250);
+  --color-bg-lighter: rgb(240, 240, 240);
+  --color-search-btn: rgb(186, 255, 190);
+  --color-shadow: rgba(220, 220, 220, 0.5);
+  --header-height: 60px;
+  --border-radius: 5px;
+  --border-radius-lg: 10px;
+  --font-family: Roboto, Arial, sans-serif;
+  --transition: 0.2s ease;
 }
 
-/* Remove the default margins of <p> elements. */
+/* ================================
+   RESET & BASE
+   ================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
 p {
   margin: 0;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ================================
+   FORM ELEMENTS
+   ================================ */
 button {
   font-size: 14px;
   cursor: pointer;
+  font-family: var(--font-family);
+  touch-action: manipulation;
 }
 
 select {
   cursor: pointer;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 3px 5px;
+  font-size: 15px;
+  box-shadow: 0 1px 3px rgba(200, 200, 200, 0.2);
+  font-family: var(--font-family);
 }
 
-input, select, button {
-  font-family: Roboto, Arial;
+input,
+select,
+button {
+  font-family: var(--font-family);
 }
 
+select:focus,
+input:focus {
+  outline: 2px solid var(--color-primary-btn);
+}
+
+/* ================================
+   BUTTONS
+   ================================ */
 .button-primary {
   color: rgb(255, 255, 255);
-  background-color: rgb(25, 135, 84);
+  background-color: var(--color-primary-btn);
   border: 1px solid transparent;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(220, 220, 220, 0.5);
+  box-shadow: 0 2px 5px var(--color-shadow);
+  min-height: 44px;
+  padding: 10px 16px;
+  transition: background-color var(--transition);
 }
 
 .button-primary:hover {
-  background-color: rgba(25, 135, 84, 0.75);
+  background-color: var(--color-primary-btn-hover);
   border: 1px solid transparent;
 }
 
 .button-primary:active {
-  background: rgba(25, 135, 84, 0.5);
+  background: var(--color-primary-btn-active);
   border-color: transparent;
   box-shadow: none;
 }
 
 .button-secondary {
-  color: rgb(33, 33, 33);
-  background: white;
-  border: 1px solid rgb(200, 200, 200);
-  border-radius: 5px;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(220, 220, 220, 0.2);
+  min-height: 44px;
+  padding: 10px 16px;
+  transition: background-color var(--transition);
 }
 
 .button-secondary:hover {
-  background-color: rgb(250, 250, 250);
+  background-color: var(--color-bg-light);
 }
 
 .button-secondary:active {
-  background-color: rgb(240, 240, 240);
+  background-color: var(--color-bg-lighter);
   box-shadow: none;
 }
 
-/* These styles will limit text to 2 lines. Anything
-   beyond 2 lines will be replaced with "..."
-   You can find this code by using an A.I. tool or by
-   searching in Google.
-   https://css-tricks.com/almanac/properties/l/line-clamp/ */
+/* ================================
+   UTILITY CLASSES
+   ================================ */
 .limit-text-to-2-lines {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -75,7 +152,7 @@ input, select, button {
 }
 
 .link-primary {
-  color: rgb(25, 135, 84);
+  color: var(--color-primary-btn);
   cursor: pointer;
 }
 
@@ -87,19 +164,37 @@ input, select, button {
   opacity: 0.5;
 }
 
-/* Styles for dropdown selectors. */
-select {
-  color: rgb(33, 33, 33);
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(200, 200, 200);
-  border-radius: 5px;
-  padding: 3px 5px;
-  font-size: 15px;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(200, 200, 200, 0.2);
+/* page wrapper - accounts for fixed header */
+.page-wrapper {
+  padding-top: var(--header-height);
+  min-height: 100vh;
 }
 
-select:focus,
-input:focus {
-  outline: 2px solid rgb(25, 135, 84);
+/* ================================
+   MOBILE GLOBAL HELPERS
+   ================================ */
+@media (max-width: 600px) {
+  .button-primary,
+  .button-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  textarea {
+    font-size: 16px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+  }
 }

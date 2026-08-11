@@ -1,15 +1,11 @@
+/* ================================
+   CHECKOUT PAGE
+   ================================ */
 .checkout-page {
   max-width: 1100px;
-  padding-left: 30px;
-  padding-right: 30px;
-
-  margin-top: 140px;
-  margin-bottom: 100px;
-
-  /* margin-left: auto;
-     margin-right auto;
-     Is a trick for centering an element horizontally
-     without needing a container. */
+  padding: 20px 20px 100px;
+  margin-top: 80px;   /* below fixed checkout header */
+  margin-bottom: 40px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -20,192 +16,381 @@
   margin-bottom: 18px;
 }
 
-.checkout-page .checkout-grid {
-  display: grid;
-  /* Here, 1fr means the first column will take
-     up the remaining space in the grid. */
-  grid-template-columns: 1fr 350px;
-  column-gap: 12px;
+/* ── loading ── */
+.checkout-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 60px 20px;
+  color: #64748b;
+}
 
-  /* Use align-items: start; to prevent the elements
-     in the grid from stretching vertically. */
+.checkout-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgb(240, 240, 240);
+  border-top-color: rgb(25, 135, 84);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── empty state ── */
+.checkout-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #64748b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.checkout-empty p {
+  font-size: 20px;
+  font-weight: 600;
+  color: #334155;
+  margin: 0;
+}
+
+.checkout-empty-link {
+  color: rgb(25, 135, 84);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 12px 24px;
+  border: 2px solid rgb(25, 135, 84);
+  border-radius: 8px;
+  transition: all 0.2s;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.checkout-empty-link:hover {
+  background: rgb(25, 135, 84);
+  color: white;
+}
+
+/* ================================
+   CHECKOUT GRID
+   ================================ */
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  column-gap: 16px;
   align-items: start;
 }
 
-@media (max-width: 1000px) {
-  .checkout-page .main {
-    max-width: 500px;
-  }
-
-  .checkout-page .checkout-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.checkout-page .cart-item-container,
-.checkout-page .payment-summary {
+/* ================================
+   CART ITEM
+   ================================ */
+.cart-item-container {
   border: 1px solid rgb(222, 222, 222);
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 18px;
+  margin-bottom: 14px;
+  background: white;
+  transition: opacity 0.2s;
 }
 
-.checkout-page .cart-item-container {
-  margin-bottom: 12px;
+.cart-item--deleting {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
-.checkout-page .payment-summary {
-  padding-bottom: 5px;
-}
-
-@media (max-width: 1000px) {
-  .checkout-page .payment-summary {
-    /* grid-row: 1 means this element will be placed into row
-      1 in the grid. (Normally, the row that an element is
-      placed in is determined by the order of the elements in
-      the HTML. grid-row overrides this default ordering). */
-    grid-row: 1;
-    margin-bottom: 12px;
-  }
-}
-
-.checkout-page .delivery-date {
+.delivery-date {
   color: rgb(25, 135, 84);
   font-weight: 700;
-  font-size: 19px;
-  margin-top: 5px;
-  margin-bottom: 22px;
+  font-size: 17px;
+  margin-bottom: 18px;
 }
 
-.checkout-page .cart-item-details-grid {
+/* ── item details grid ── */
+.cart-item-details-grid {
   display: grid;
-  /* 100px 1fr 1fr; means the 2nd and 3rd column will
-    take up half the remaining space in the grid
-    (they will divide up the remaining space evenly). */
   grid-template-columns: 100px 1fr 1fr;
-  column-gap: 25px;
+  grid-template-rows: auto auto;
+  column-gap: 20px;
+  row-gap: 0;
 }
 
-@media (max-width: 1000px) {
-  .checkout-page .cart-item-details-grid {
-    grid-template-columns: 100px 1fr;
-    row-gap: 30px;
-  }
+.cart-item-image-wrapper {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
 
-.checkout-page .product-image {
+.cart-item-details {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.cart-item-delivery-wrapper {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.product-image {
   max-width: 100%;
-  max-height: 120px;
-
-  /* margin-left: auto;
-     margin-right auto;
-     Is a trick for centering an element horizontally
-     without needing a container. */
-  margin-left: auto;
-  margin-right: auto;
+  max-height: 110px;
+  object-fit: contain;
 }
 
-.checkout-page .product-name {
+.product-name {
+  font-weight: 700;
+  margin-bottom: 6px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.product-price {
   font-weight: 700;
   margin-bottom: 8px;
+  color: #0f172a;
 }
 
-.checkout-page .product-price {
+.product-quantity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
 
+.quantity-label {
   font-weight: 700;
-  margin-bottom: 5px;
 }
 
-.checkout-page .product-quantity .link-primary {
-  margin-left: 3px;
+/* action buttons (Delete) */
+.item-action-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
 }
 
-@media (max-width: 1000px) {
-  .checkout-page .delivery-options {
-    /* grid-column: 1 means this element will be placed
-       in column 1 in the grid. (Normally, the column that
-       an element is placed in is determined by the order
-       of the elements in the HTML. grid-column overrides
-       this default ordering).
-
-       / span 2 means this element will take up 2 columns
-       in the grid (Normally, each element takes up 1
-       column in the grid). */
-    grid-column: 1 / span 2;
-  }
+.item-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.checkout-page .delivery-options-title {
+/* ================================
+   DELIVERY OPTIONS
+   ================================ */
+.delivery-options-title {
   font-weight: 700;
+  font-size: 14px;
   margin-bottom: 10px;
+  color: #334155;
 }
 
-.checkout-page .delivery-option {
+.delivery-option {
   display: grid;
   grid-template-columns: 24px 1fr;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-bottom: 10px;
   cursor: pointer;
+  padding: 10px 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  min-height: 44px; /* mobile tap target */
+  align-items: center;
 }
 
-.checkout-page .delivery-option-input {
-  margin: 3px 5px 0px 0px;
+.delivery-option:hover {
+  background: rgb(245, 250, 247);
+}
+
+.delivery-option--selected {
+  background: rgb(240, 253, 244);
+  border-color: rgb(25, 135, 84);
+}
+
+.delivery-option-input {
+  margin: 0;
   cursor: pointer;
+  accent-color: rgb(25, 135, 84);
+  width: 16px;
+  height: 16px;
 }
 
-.checkout-page .delivery-option-date {
-
-  font-weight: 500;
-  margin-bottom: 3px;
+.delivery-option-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.checkout-page .delivery-option-price {
+.delivery-option-date {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.delivery-option-price {
   color: rgb(120, 120, 120);
-  font-size: 15px;
+  font-size: 13px;
 }
 
-.checkout-page .payment-summary-title {
+.delivery-option-price--free {
+  color: rgb(25, 135, 84);
+  font-weight: 600;
+}
+
+/* ================================
+   PAYMENT SUMMARY
+   ================================ */
+.payment-summary {
+  border: 1px solid rgb(222, 222, 222);
+  border-radius: 8px;
+  padding: 20px;
+  background: white;
+  /* stick to top when scrolling on desktop */
+  position: sticky;
+  top: 80px;
+}
+
+.payment-summary-title {
   font-weight: 700;
   font-size: 18px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  color: #0f172a;
 }
 
-.checkout-page .payment-summary-row {
+.payment-summary-row {
   display: grid;
-  /* 1fr auto; means the width of the 2nd column will be
-     determined by the elements inside the column (auto).
-     The 1st column will take up the remaining space. */
   grid-template-columns: 1fr auto;
-
   font-size: 15px;
-  margin-bottom: 9px;
+  margin-bottom: 10px;
+  gap: 8px;
 }
 
-.checkout-page .payment-summary-money {
+.payment-summary-money {
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
-.checkout-page .subtotal-row .payment-summary-money {
+.subtotal-row .payment-summary-money {
   border-top: 1px solid rgb(222, 222, 222);
 }
 
-.checkout-page .subtotal-row div {
+.subtotal-row div {
   padding-top: 9px;
 }
 
-.checkout-page .total-row {
+.total-row {
   color: rgb(25, 135, 84);
   font-weight: 700;
   font-size: 18px;
-
   border-top: 1px solid rgb(222, 222, 222);
-  padding-top: 18px;
+  padding-top: 14px;
+  margin-top: 4px;
 }
 
-.checkout-page .place-order-button {
+.place-order-button {
   width: 100%;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  border-radius: 5px;
+  padding: 14px 12px;
+  border-radius: 8px;
+  margin-top: 18px;
+  font-size: 15px;
+  font-weight: 700;
+  min-height: 52px; /* mobile tap target */
+}
 
-  margin-top: 20px;
-  margin-bottom: 19px;
+.payment-trust {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgb(240, 240, 240);
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+/* ── tablet ── */
+@media (max-width: 1000px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+    row-gap: 0;
+  }
+
+  /* payment summary moves to top on tablet/mobile */
+  .payment-summary {
+    grid-row: 1;
+    margin-bottom: 16px;
+    position: static; /* no sticky on mobile */
+  }
+
+  /* delivery options span full width */
+  .cart-item-delivery-wrapper {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+  }
+}
+
+/* ── mobile ── */
+@media (max-width: 600px) {
+  .checkout-page {
+    padding: 14px 12px 80px;
+    margin-top: 70px;
+  }
+
+  .checkout-page .page-title {
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+
+  /* stack image + details vertically */
+  .cart-item-details-grid {
+    grid-template-columns: 80px 1fr;
+  }
+
+  .cart-item-delivery-wrapper {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgb(240, 240, 240);
+  }
+
+  .cart-item-container {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .delivery-date {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  .product-image {
+    max-height: 80px;
+  }
+
+  .product-name {
+    font-size: 14px;
+  }
+
+  .payment-summary-title {
+    font-size: 16px;
+  }
+
+  .total-row {
+    font-size: 16px;
+  }
+
+  .place-order-button {
+    font-size: 15px;
+  }
 }

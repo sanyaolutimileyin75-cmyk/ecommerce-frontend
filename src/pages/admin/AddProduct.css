@@ -1,46 +1,87 @@
+/* ================================
+   ADD/EDIT PRODUCT LAYOUT
+   ================================ */
 .add-product {
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 32px;
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* ================================
+   HEADER
+   ================================ */
 .add-product .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .add-product h1 {
   margin: 0;
-  color: #2d3436;
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .add-product .back-link {
-  color: #00a86b;
+  color: #6366f1;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 10px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  transition: all 0.2s;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .add-product .back-link:hover {
-  text-decoration: underline;
+  border-color: #6366f1;
+  background: #eef2ff;
+  text-decoration: none;
 }
 
+/* ================================
+   ERROR MESSAGE
+   ================================ */
 .error-message {
-  background-color: #ffe0e0;
-  color: #d63031;
-  padding: 12px;
-  border-radius: 6px;
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 10px;
   margin-bottom: 20px;
-  border: 1px solid #d63031;
+  border: 1px solid #fecaca;
+  font-size: 14px;
+  font-weight: 500;
+  animation: shake 0.3s ease;
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-6px); }
+  75%       { transform: translateX(6px); }
+}
+
+/* ================================
+   PRODUCT FORM
+   ================================ */
 .product-form {
-  background-color: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 32px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .form-group {
@@ -49,95 +90,214 @@
 
 .form-row {
   display: flex;
-  gap: 15px;
+  gap: 16px;
 }
 
 .form-row .form-group {
   flex: 1;
+  min-width: 0;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 6px;
-  color: #2d3436;
-  font-weight: bold;
+  color: #334155;
+  font-weight: 600;
+  font-size: 13px;
 }
 
-.form-group input {
+.form-group input,
+.form-group select,
+.category-select {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 15px;
+  padding: 11px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 16px;   /* prevents iOS zoom */
+  outline: none;
+  background: #f8fafc;
+  transition: all 0.2s;
+  font-family: inherit;
   box-sizing: border-box;
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #00a86b;
+.form-group input:focus,
+.form-group select:focus,
+.category-select:focus {
+  border-color: #6366f1;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.category-select {
+  cursor: pointer;
 }
 
 .form-group small {
   display: block;
-  margin-top: 4px;
-  color: #636e72;
+  margin-top: 6px;
+  color: #64748b;
   font-size: 12px;
+  line-height: 1.5;
 }
 
-.submit-btn {
-  background-color: #00a86b;
-  color: white;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-}
-
-.submit-btn:hover:not(:disabled) {
-  background-color: #008f5a;
-}
-
-.submit-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.image-preview {
-  margin-top: 15px;
-  border: 1px dashed #ccc;
+/* ================================
+   FILE INPUT
+   ================================ */
+.form-group input[type="file"] {
   padding: 10px;
-  border-radius: 6px;
+  cursor: pointer;
+  background: #f8fafc;
+  font-size: 14px;
+}
+
+/* ================================
+   IMAGE PREVIEW
+   ================================ */
+.image-preview {
+  margin-top: 12px;
+  border: 1px dashed #cbd5e1;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f8fafc;
   display: inline-block;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .image-preview img {
   max-width: 200px;
   max-height: 200px;
+  width: auto;
+  height: auto;
   display: block;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
-.form-group input[type="file"] {
-  padding: 8px;
-  cursor: pointer;
+.image-preview p {
+  margin: 0 0 8px 0;
+  color: #334155;
+  font-size: 13px;
 }
 
-.category-select {
-  padding: 10px 14px;
-  font-size: 14px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  outline: none;
-  background: #fff;
+/* ================================
+   SUBMIT BUTTON
+   ================================ */
+.submit-btn {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   width: 100%;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
+  min-height: 52px;
+  font-family: inherit;
+  margin-top: 8px;
 }
 
-.category-select:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -8px rgba(99, 102, 241, 0.5);
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ================================
+   RESPONSIVE — TABLET
+   ================================ */
+@media (max-width: 700px) {
+  .add-product {
+    padding: 28px 20px;
+  }
+
+  .add-product .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .add-product h1 {
+    font-size: 24px;
+  }
+
+  .add-product .back-link {
+    align-self: flex-start;
+  }
+
+  .product-form {
+    padding: 24px 20px;
+  }
+}
+
+/* ================================
+   RESPONSIVE — MOBILE
+   ================================ */
+@media (max-width: 560px) {
+  .add-product {
+    padding: 20px 14px;
+  }
+
+  .add-product h1 {
+    font-size: 22px;
+  }
+
+  .product-form {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  /* Stack the rating row vertically */
+  .form-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .image-preview {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .image-preview img {
+    max-width: 100%;
+    max-height: 240px;
+    margin: 0 auto;
+  }
+}
+
+/* ================================
+   VERY SMALL SCREENS (< 380px)
+   ================================ */
+@media (max-width: 380px) {
+  .add-product {
+    padding: 16px 12px;
+  }
+
+  .add-product h1 {
+    font-size: 20px;
+  }
+
+  .product-form {
+    padding: 16px 14px;
+  }
+
+  .submit-btn {
+    font-size: 14px;
+    padding: 13px 20px;
+  }
 }

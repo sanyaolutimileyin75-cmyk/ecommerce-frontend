@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import './ReviewsSection.css';
 
 export function ReviewsSection({ productId, onReviewChange }) {
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
+  const [reviews, setReviews]     = useState([]);
+  const [loading, setLoading]     = useState(true);
+  const [showForm, setShowForm]   = useState(false);
 
-  // Form state
+  /* form state */
   const [authorName, setAuthorName] = useState('');
-  const [rating, setRating] = useState(5);
+  const [rating, setRating]         = useState(5);
   const [hoveredStar, setHoveredStar] = useState(0);
-  const [comment, setComment] = useState('');
+  const [comment, setComment]       = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const loadReviews = async () => {
@@ -31,11 +31,7 @@ export function ReviewsSection({ productId, onReviewChange }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!authorName.trim() || !comment.trim()) {
-      alert('Please fill in all fields');
-      return;
-    }
+    if (!authorName.trim() || !comment.trim()) return;
 
     setSubmitting(true);
     try {
@@ -43,16 +39,12 @@ export function ReviewsSection({ productId, onReviewChange }) {
         productId,
         authorName,
         rating,
-        comment
+        comment,
       });
-
-      // Reset form
       setAuthorName('');
       setRating(5);
       setComment('');
       setShowForm(false);
-
-      // Reload reviews + notify parent to reload product rating
       await loadReviews();
       if (onReviewChange) onReviewChange();
     } catch (err) {
@@ -63,17 +55,17 @@ export function ReviewsSection({ productId, onReviewChange }) {
     }
   };
 
-  // Format date like "Oct 15, 2024"
-  const formatDate = (dateStr) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
+  const formatDate = (dateStr) =>
+    new Date(dateStr).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     });
-  };
 
   return (
     <div className="reviews-section">
+
+      {/* ── header ── */}
       <div className="reviews-header">
         <h2>Customer Reviews ({reviews.length})</h2>
         {!showForm && (
@@ -86,25 +78,27 @@ export function ReviewsSection({ productId, onReviewChange }) {
         )}
       </div>
 
-      {/* Review Form */}
+      {/* ── review form ── */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="review-form">
+        <form onSubmit={handleSubmit} className="review-form" noValidate>
           <h3>Write Your Review</h3>
 
           <div className="form-group">
-            <label>Your Name</label>
+            <label htmlFor="review-author">Your Name</label>
             <input
+              id="review-author"
               type="text"
               value={authorName}
               onChange={(e) => setAuthorName(e.target.value)}
               placeholder="e.g. John D."
               required
+              autoComplete="name"
             />
           </div>
 
           <div className="form-group">
             <label>Rating</label>
-            <div className="star-picker">
+            <div className="star-picker" role="radiogroup" aria-label="Rating">
               {[1, 2, 3, 4, 5].map((n) => (
                 <span
                   key={n}
@@ -112,6 +106,11 @@ export function ReviewsSection({ productId, onReviewChange }) {
                   onClick={() => setRating(n)}
                   onMouseEnter={() => setHoveredStar(n)}
                   onMouseLeave={() => setHoveredStar(0)}
+                  role="radio"
+                  aria-checked={rating === n}
+                  aria-label={`${n} star${n > 1 ? 's' : ''}`}
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && setRating(n)}
                 >
                   ★
                 </span>
@@ -121,12 +120,13 @@ export function ReviewsSection({ productId, onReviewChange }) {
           </div>
 
           <div className="form-group">
-            <label>Your Review</label>
+            <label htmlFor="review-comment">Your Review</label>
             <textarea
+              id="review-comment"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Share your thoughts about this product..."
-              rows="4"
+              rows={4}
               required
             />
           </div>
@@ -143,7 +143,7 @@ export function ReviewsSection({ productId, onReviewChange }) {
             <button
               type="submit"
               className="submit-review-btn"
-              disabled={submitting}
+              disabled={submitting || !authorName.trim() || !comment.trim()}
             >
               {submitting ? 'Submitting...' : 'Submit Review'}
             </button>
@@ -151,9 +151,12 @@ export function ReviewsSection({ productId, onReviewChange }) {
         </form>
       )}
 
-      {/* Reviews List */}
+      {/* ── reviews list ── */}
       {loading ? (
-        <p className="loading-reviews">Loading reviews...</p>
+        <div className="loading-reviews">
+          <div className="reviews-spinner" />
+          <p>Loading reviews...</p>
+        </div>
       ) : reviews.length === 0 ? (
         <div className="no-reviews">
           <p>💭 No reviews yet</p>
@@ -165,15 +168,15 @@ export function ReviewsSection({ productId, onReviewChange }) {
             <div key={review.id} className="review-card">
               <div className="review-header">
                 <div className="review-author">
-                  <div className="author-avatar">
+                  <div className="author-avatar" aria-hidden="true">
                     {review.authorName.charAt(0).toUpperCase()}
                   </div>
-                  <div>
+                  <div className="author-info">
                     <div className="author-name">{review.authorName}</div>
                     <div className="review-date">{formatDate(review.createdAt)}</div>
                   </div>
                 </div>
-                <div className="review-stars">
+                <div className="review-stars" aria-label={`${review.rating} out of 5 stars`}>
                   {'★'.repeat(review.rating)}
                   <span className="unfilled-stars">
                     {'★'.repeat(5 - review.rating)}
@@ -185,6 +188,7 @@ export function ReviewsSection({ productId, onReviewChange }) {
           ))}
         </div>
       )}
+
     </div>
   );
 }

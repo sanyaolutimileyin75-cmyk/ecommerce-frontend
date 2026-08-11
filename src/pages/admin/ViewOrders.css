@@ -1,3 +1,6 @@
+/* ================================
+   VIEW ORDERS LAYOUT
+   ================================ */
 .view-orders {
   max-width: 1200px;
   margin: 0 auto;
@@ -13,12 +16,16 @@
   color: #64748b;
 }
 
-/* ===== Header ===== */
+/* ================================
+   HEADER
+   ================================ */
 .orders-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 16px;
   margin-bottom: 32px;
+  flex-wrap: wrap;
 }
 
 .orders-header h1 {
@@ -33,6 +40,7 @@
   color: #64748b;
   font-size: 15px;
   margin: 0;
+  line-height: 1.5;
 }
 
 .back-link {
@@ -45,6 +53,11 @@
   border-radius: 8px;
   background: #fff;
   transition: all 0.2s;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .back-link:hover {
@@ -52,7 +65,9 @@
   background: #eef2ff;
 }
 
-/* ===== Summary Cards ===== */
+/* ================================
+   SUMMARY CARDS
+   ================================ */
 .summary-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -83,9 +98,12 @@
   font-weight: 700;
   color: #0f172a;
   letter-spacing: -0.5px;
+  word-break: break-word;
 }
 
-/* ===== Search Bar ===== */
+/* ================================
+   SEARCH BAR
+   ================================ */
 .search-bar {
   display: flex;
   align-items: center;
@@ -95,14 +113,17 @@
 
 .search-input {
   flex: 1;
+  min-width: 0;
   max-width: 420px;
   padding: 12px 16px;
-  font-size: 14px;
+  font-size: 16px;   /* prevents iOS zoom */
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   background: #fff;
   outline: none;
   transition: border-color 0.2s;
+  font-family: inherit;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
@@ -114,19 +135,25 @@
   background: #e2e8f0;
   border: none;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   font-size: 13px;
   cursor: pointer;
   color: #475569;
   transition: background 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .clear-btn:hover {
   background: #cbd5e1;
 }
 
-/* ===== Empty State ===== */
+/* ================================
+   EMPTY STATE
+   ================================ */
 .no-orders {
   text-align: center;
   padding: 60px 20px;
@@ -148,7 +175,9 @@
   color: #94a3b8;
 }
 
-/* ===== Orders List ===== */
+/* ================================
+   ORDERS LIST
+   ================================ */
 .orders-list {
   display: flex;
   flex-direction: column;
@@ -167,11 +196,12 @@
   box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.1);
 }
 
-/* Order card header */
+/* ── Order card header ── */
 .order-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   padding: 18px 24px;
   background: #f8fafc;
   border-bottom: 1px solid #e2e8f0;
@@ -192,19 +222,22 @@
   font-weight: 700;
   color: #0f172a;
   font-family: 'Courier New', monospace;
+  word-break: break-all;
 }
 
 .order-date {
   text-align: right;
+  flex-shrink: 0;
 }
 
 .order-date-value {
   font-size: 14px;
   font-weight: 600;
   color: #334155;
+  white-space: nowrap;
 }
 
-/* Products inside order */
+/* ── Products inside order ── */
 .order-products {
   padding: 8px 24px;
 }
@@ -229,6 +262,7 @@
   background: #f8fafc;
   padding: 4px;
   border: 1px solid #e2e8f0;
+  flex-shrink: 0;
 }
 
 .product-info {
@@ -241,6 +275,7 @@
   font-weight: 600;
   color: #0f172a;
   margin-bottom: 4px;
+  word-break: break-word;
 }
 
 .product-name.deleted {
@@ -251,22 +286,27 @@
 .product-meta {
   font-size: 13px;
   color: #64748b;
+  line-height: 1.5;
 }
 
 .product-price {
   font-size: 15px;
   font-weight: 700;
   color: #0f172a;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
-/* Order card footer */
+/* ── Order card footer ── */
 .order-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   padding: 16px 24px;
   background: #f8fafc;
   border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
 }
 
 .items-count {
@@ -289,23 +329,165 @@
   letter-spacing: -0.5px;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 800px) {
-  .orders-header {
-    flex-direction: column;
-    gap: 16px;
+/* ================================
+   RESPONSIVE — TABLET
+   ================================ */
+@media (max-width: 900px) {
+  .view-orders {
+    padding: 28px 20px;
   }
 
+  .orders-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .orders-header h1 {
+    font-size: 26px;
+  }
+
+  .back-link {
+    align-self: flex-start;
+  }
+
+  /* Summary cards: 3 → 2 (3rd spans full width) */
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .summary-card:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .search-input {
+    max-width: 100%;
+  }
+}
+
+/* ================================
+   RESPONSIVE — MOBILE
+   ================================ */
+@media (max-width: 600px) {
+  .view-orders {
+    padding: 20px 14px;
+  }
+
+  .orders-header h1 {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  /* Summary cards: single column */
   .summary-cards {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .summary-card:nth-child(3) {
+    grid-column: auto;
+  }
+
+  .summary-card {
+    padding: 14px 16px;
+  }
+
+  .summary-value {
+    font-size: 22px;
+  }
+
+  /* Order card header: stack */
+  .order-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .order-date {
+    text-align: left;
+  }
+
+  /* Products: image on top, info stacked, price on bottom right */
+  .order-products {
+    padding: 4px 16px;
   }
 
   .order-product {
     flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 0;
   }
 
+  .product-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .product-info {
+    flex: 1;
+    min-width: 0;
+    /* takes what's left next to the image */
+  }
+
+  .product-name {
+    font-size: 14px;
+  }
+
+  .product-meta {
+    font-size: 12px;
+  }
+
+  /* Price goes on its own line, aligned right */
   .product-price {
     width: 100%;
     text-align: right;
+    padding-top: 4px;
+    border-top: 1px dashed #f1f5f9;
+  }
+
+  /* Order footer: stack */
+  .order-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 14px 16px;
+  }
+
+  .order-total {
+    font-size: 13px;
+  }
+
+  .total-amount {
+    font-size: 22px;
+  }
+
+  /* Empty state */
+  .no-orders {
+    padding: 40px 20px;
+  }
+
+  .no-orders p {
+    font-size: 16px;
+  }
+}
+
+/* ================================
+   VERY SMALL SCREENS (< 380px)
+   ================================ */
+@media (max-width: 380px) {
+  .orders-header h1 {
+    font-size: 20px;
+  }
+
+  .summary-value {
+    font-size: 20px;
+  }
+
+  .order-id {
+    font-size: 13px;
   }
 }

@@ -145,19 +145,19 @@ export function ManageProducts() {
           <tbody>
             {products.map((product) => (
               <tr key={product.id}>
-                <td>
+                <td data-label="Image">
                   <img
                     src={getImageUrl(product.image)}
                     alt={product.name}
                     className="product-img"
                   />
                 </td>
-                <td>{product.name}</td>
-                <td>${(product.priceCents / 100).toFixed(2)}</td>
-                <td>
+                <td data-label="Name" className="cell-name">{product.name}</td>
+                <td data-label="Price">${(product.priceCents / 100).toFixed(2)}</td>
+                <td data-label="Rating">
                   ⭐ {product.rating.stars} ({product.rating.count})
                 </td>
-                <td>
+                <td data-label="Actions" className="cell-actions">
                   <button
                     className="edit-btn"
                     onClick={() => handleEdit(product.id)}

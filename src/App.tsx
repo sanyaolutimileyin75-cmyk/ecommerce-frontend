@@ -29,69 +29,70 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      {/* Public routes */}
-      <Route index element={<HomePage cart={cart} loadCart={loadCart} />} />
-      <Route path="checkout" element={<CheckoutPage cart={cart} loadCart={loadCart} />} />
-      <Route path="orders" element={<OrdersPage cart={cart} />} />
-      <Route path="tracking" element={<TrackingPage />} />
-      <Route path="product/:id" element={<ProductDetailPage cart={cart} loadCart={loadCart} />} />
+    /* page-wrapper pushes content below the fixed header */
+    <div className="page-wrapper">
+      <Routes>
+        {/* Public routes */}
+        <Route index element={<HomePage cart={cart} loadCart={loadCart} />} />
+        <Route path="checkout" element={<CheckoutPage cart={cart} loadCart={loadCart} />} />
+        <Route path="orders" element={<OrdersPage cart={cart} />} />
+        <Route path="tracking" element={<TrackingPage />} />
+        <Route path="product/:id" element={<ProductDetailPage cart={cart} loadCart={loadCart} />} />
 
-      {/* Public admin login */}
-      <Route path="admin/login" element={<LoginPage />} />
+        {/* Public admin login */}
+        <Route path="admin/login" element={<LoginPage />} />
 
-      {/* Protected admin routes */}
-      <Route
-        path="admin"
-        element={
-          <ProtectedRoute>
-            <AdminPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="admin/products"
-        element={
-          <ProtectedRoute>
-            <ManageProducts />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="admin/products/add"
-        element={
-          <ProtectedRoute>
-            <AddProduct />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="admin/products/edit/:id"
-        element={
-          <ProtectedRoute>
-            <EditProduct />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="admin/orders"
-        element={
-          <ProtectedRoute>
-            <ViewOrders />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-  path="admin/categories"
-  element={
-    <ProtectedRoute>
-      <ManageCategories />
-    </ProtectedRoute>
-  }
-/>
-    </Routes>
-
-
+        {/* Protected admin routes */}
+        <Route
+          path="admin"
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/products"
+          element={
+            <ProtectedRoute>
+              <ManageProducts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/products/add"
+          element={
+            <ProtectedRoute>
+              <AddProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/products/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/orders"
+          element={
+            <ProtectedRoute>
+              <ViewOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/categories"
+          element={
+            <ProtectedRoute>
+              <ManageCategories />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </div>
   );
 }
 

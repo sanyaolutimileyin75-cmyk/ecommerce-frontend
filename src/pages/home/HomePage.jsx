@@ -1,15 +1,17 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Header } from '../../components/Header';
 import { ProductsGrid } from './ProductsGrid';
 import './HomePage.css';
 
 export function HomePage({ cart, loadCart }) {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(''); // '' means "All"
+  const [products, setProducts]               = useState([]);
+  const [categories, setCategories]           = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [isLoading, setIsLoading]             = useState(true);
+  const categoryBarRef                        = useRef(null);
 
-  // Load categories once on mount
+  /* ── load categories once ── */
   useEffect(() => {
     const loadCategories = async () => {
       try {
@@ -22,35 +24,49 @@ export function HomePage({ cart, loadCart }) {
     loadCategories();
   }, []);
 
-  // Load products - re-runs when selectedCategoryId changes
+  /* ── load products when category changes ── */
   useEffect(() => {
     const loadProducts = async () => {
+      setIsLoading(true);
       try {
         const url = selectedCategoryId
           ? `/api/products?categoryId=${selectedCategoryId}`
           : '/api/products';
-
         const response = await axios.get(url);
         setProducts(response.data);
       } catch (error) {
         console.error('Failed to load products:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     loadProducts();
   }, [selectedCategoryId]);
 
+  /* ── scroll active category button into view on mobile ── */
+  const handleCategorySelect = (id) => {
+    setSelectedCategoryId(id);
+    if (categoryBarRef.current) {
+      const activeBtn = categoryBarRef.current.querySelector('.category-btn.active');
+      if (activeBtn) {
+        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+  };
+
   return (
     <>
-      <title>Ecommerce Project</title>
+      <title>TimzyKay - Shop Quality Products</title>
 
       <Header cart={cart} />
 
       <div className="home-page">
-        {/* Category Filter Bar */}
-        <div className="category-filter">
+
+        {/* ── Category Filter Bar ── */}
+        <div className="category-filter" ref={categoryBarRef}>
           <button
             className={`category-btn ${selectedCategoryId === '' ? 'active' : ''}`}
-            onClick={() => setSelectedCategoryId('')}
+            onClick={() => handleCategorySelect('')}
           >
             All Products
           </button>
@@ -59,7 +75,7 @@ export function HomePage({ cart, loadCart }) {
             <button
               key={cat.id}
               className={`category-btn ${selectedCategoryId === cat.id ? 'active' : ''}`}
-              onClick={() => setSelectedCategoryId(cat.id)}
+              onClick={() => handleCategorySelect(cat.id)}
             >
               {cat.name}
               <span className="category-count">{cat.productCount}</span>
@@ -67,14 +83,20 @@ export function HomePage({ cart, loadCart }) {
           ))}
         </div>
 
-        {/* Empty state if selected category has no products */}
-        {products.length === 0 ? (
+        {/* ── Products ── */}
+        {isLoading ? (
+          <div className="products-loading">
+            <div className="loading-spinner" />
+            <p>Loading products...</p>
+          </div>
+        ) : products.length === 0 ? (
           <div className="no-products">
             <p>No products found in this category.</p>
           </div>
         ) : (
           <ProductsGrid products={products} loadCart={loadCart} />
         )}
+
       </div>
     </>
   );
