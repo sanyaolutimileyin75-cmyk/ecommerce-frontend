@@ -1,15 +1,19 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
+import { useSearchParams } from 'react-router';
 import { Header } from '../../components/Header';
 import { ProductsGrid } from './ProductsGrid';
 import './HomePage.css';
 
 export function HomePage({ cart, loadCart }) {
-  const [products, setProducts]               = useState([]);
-  const [categories, setCategories]           = useState([]);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
-  const [isLoading, setIsLoading]             = useState(true);
-  const categoryBarRef                        = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const categoryBarRef = useRef(null);
+
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
 
   /* ── load categories once ── */
   useEffect(() => {
@@ -43,7 +47,13 @@ export function HomePage({ cart, loadCart }) {
     loadProducts();
   }, [selectedCategoryId]);
 
-  /* ── scroll active category button into view on mobile ── */
+  /* ── filter products by search query ── */
+  const filteredProducts = searchQuery
+    ? products.filter((p) =>
+        p.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : products;
+
   const handleCategorySelect = (id) => {
     setSelectedCategoryId(id);
     if (categoryBarRef.current) {
@@ -61,6 +71,16 @@ export function HomePage({ cart, loadCart }) {
       <Header cart={cart} />
 
       <div className="home-page">
+
+        {/* ── Search Results Banner ── */}
+        {searchQuery && (
+          <div className="search-results-banner">
+            <p>
+              Showing results for: <strong>"{searchQuery}"</strong>
+              <span className="search-count"> ({filteredProducts.length} found)</span>
+            </p>
+          </div>
+        )}
 
         {/* ── Category Filter Bar ── */}
         <div className="category-filter" ref={categoryBarRef}>
@@ -89,12 +109,16 @@ export function HomePage({ cart, loadCart }) {
             <div className="loading-spinner" />
             <p>Loading products...</p>
           </div>
-        ) : products.length === 0 ? (
+        ) : filteredProducts.length === 0 ? (
           <div className="no-products">
-            <p>No products found in this category.</p>
+            <p>
+              {searchQuery
+                ? `No products found matching "${searchQuery}".`
+                : 'No products found in this category.'}
+            </p>
           </div>
         ) : (
-          <ProductsGrid products={products} loadCart={loadCart} />
+          <ProductsGrid products={filteredProducts} loadCart={loadCart} />
         )}
 
       </div>

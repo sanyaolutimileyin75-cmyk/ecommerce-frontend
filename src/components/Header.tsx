@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { getImageUrl } from '../utils/imageUrl';
 import { useState, useEffect, useRef } from 'react';
 import './header.css';
@@ -13,9 +13,11 @@ type HeaderProps = {
 
 export function Header(props: HeaderProps) {
   const { cart } = props;
+  const navigate = useNavigate();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const drawerRef = useRef<HTMLDivElement>(null);
 
   let totalQuantity = 0;
@@ -24,6 +26,15 @@ export function Header(props: HeaderProps) {
       totalQuantity += cartItem.quantity;
     });
   }
+
+  /* Handle search submit */
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false); // close mobile search
+    }
+  };
 
   /* close drawer when clicking outside */
   useEffect(() => {
@@ -41,13 +52,10 @@ export function Header(props: HeaderProps) {
   /* lock body scroll when drawer is open + manage focus */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
-
-    // When drawer closes, blur any focused element inside it
     if (!menuOpen && drawerRef.current) {
       const focused = drawerRef.current.querySelector(':focus') as HTMLElement;
       if (focused) focused.blur();
     }
-
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
@@ -64,16 +72,22 @@ export function Header(props: HeaderProps) {
         </div>
 
         {/* ── MIDDLE – desktop search bar ── */}
-        <div className="header__middle">
-          <input className="search-bar" type="text" placeholder="Search" />
-          <button className="search-button" aria-label="Search">
+        <form className="header__middle" onSubmit={handleSearch}>
+          <input
+            className="search-bar"
+            type="text"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button className="search-button" type="submit" aria-label="Search">
             <img
               className="search-icon"
               src={getImageUrl('images/icons/search-icon.png')}
               alt=""
             />
           </button>
-        </div>
+        </form>
 
         {/* ── RIGHT ── */}
         <div className="header__right">
@@ -90,12 +104,10 @@ export function Header(props: HeaderProps) {
             />
           </button>
 
-          {/* orders – hidden on very small screens, shown in drawer */}
           <Link className="orders-link header-link" to="/orders">
             <span className="orders-text">Orders</span>
           </Link>
 
-          {/* cart */}
           <Link className="cart-link header-link" to="/checkout">
             <img className="cart-icon" src={getImageUrl('images/icons/cart-icon.png')} alt="Cart" />
             {totalQuantity > 0 && (
@@ -104,7 +116,6 @@ export function Header(props: HeaderProps) {
             <div className="cart-text">Cart</div>
           </Link>
 
-          {/* hamburger */}
           <button
             className={`icon-btn hamburger ${menuOpen ? 'hamburger--open' : ''}`}
             aria-label="Toggle menu"
@@ -118,17 +129,26 @@ export function Header(props: HeaderProps) {
         </div>
       </header>
 
-      {/* ── MOBILE SEARCH BAR (drops below header) ── */}
-      <div className={`mobile-search-bar ${searchOpen ? 'mobile-search-bar--open' : ''}`}>
-        <input type="text" placeholder="Search for products..." autoFocus={searchOpen} />
-        <button className="search-button" aria-label="Search">
+      {/* ── MOBILE SEARCH BAR ── */}
+      <form
+        className={`mobile-search-bar ${searchOpen ? 'mobile-search-bar--open' : ''}`}
+        onSubmit={handleSearch}
+      >
+        <input
+          type="text"
+          placeholder="Search for products..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          autoFocus={searchOpen}
+        />
+        <button className="search-button" type="submit" aria-label="Search">
           <img
             className="search-icon"
             src={getImageUrl('images/icons/search-icon.png')}
             alt=""
           />
         </button>
-      </div>
+      </form>
 
       {/* ── DRAWER OVERLAY ── */}
       {menuOpen && (

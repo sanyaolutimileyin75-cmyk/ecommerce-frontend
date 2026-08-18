@@ -10,7 +10,7 @@
 /* ================================
    TRACKING CARD
    ================================ */
-.tracking-card {
+.tracking-page .tracking-card {
   background: white;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
@@ -21,7 +21,7 @@
 }
 
 /* ── back link ── */
-.back-to-orders-link {
+.tracking-page .back-to-orders-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -29,14 +29,14 @@
   font-weight: 500;
   margin-bottom: 20px;
   text-decoration: none;
-  min-height: 44px;  /* mobile tap target */
+  min-height: 44px;
 }
 
 /* ── status badge ── */
-.tracking-status-badge {
+.tracking-page .tracking-status-badge {
   display: inline-block;
   align-self: flex-start;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, rgb(8, 79, 45), rgb(25, 135, 84));
   color: white;
   font-size: 12px;
   font-weight: 700;
@@ -48,7 +48,7 @@
 }
 
 /* ── delivery date ── */
-.delivery-date {
+.tracking-page .delivery-date {
   font-size: 22px;
   font-weight: 700;
   color: #0f172a;
@@ -59,7 +59,7 @@
 /* ================================
    PRODUCT ROW
    ================================ */
-.tracking-product {
+.tracking-page .tracking-product {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -70,7 +70,7 @@
   margin-bottom: 28px;
 }
 
-.product-image {
+.tracking-page .product-image {
   width: 80px;
   height: 80px;
   object-fit: contain;
@@ -78,20 +78,20 @@
   flex-shrink: 0;
 }
 
-.tracking-product-info {
+.tracking-page .tracking-product-info {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.tracking-product-info .product-name {
+.tracking-page .tracking-product-info .product-name {
   font-weight: 700;
   font-size: 15px;
   color: #0f172a;
   line-height: 1.4;
 }
 
-.tracking-product-info .product-quantity {
+.tracking-page .tracking-product-info .product-quantity {
   font-size: 14px;
   color: #64748b;
 }
@@ -99,21 +99,21 @@
 /* ================================
    PROGRESS SECTION
    ================================ */
-.tracking-progress {
+.tracking-page .tracking-progress {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
 /* ── step labels ── */
-.progress-labels-container {
+.tracking-page .progress-labels-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   gap: 4px;
 }
 
-.progress-label {
+.tracking-page .progress-label {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,17 +126,17 @@
   transition: color 0.2s;
 }
 
-.progress-label--done {
+.tracking-page .progress-label--done {
   color: #334155;
 }
 
-.progress-label--current {
+.tracking-page .progress-label--current {
   color: rgb(25, 135, 84);
   font-weight: 700;
 }
 
 /* step dot */
-.progress-dot {
+.tracking-page .progress-dot {
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -149,24 +149,24 @@
   transition: all 0.2s;
 }
 
-.progress-label--done .progress-dot {
+.tracking-page .progress-label--done .progress-dot {
   background: rgb(25, 135, 84);
   border-color: rgb(25, 135, 84);
 }
 
-.progress-label--current .progress-dot {
+.tracking-page .progress-label--current .progress-dot {
   border-color: rgb(25, 135, 84);
   box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.15);
 }
 
-.progress-dot-check {
+.tracking-page .progress-dot-check {
   color: white;
   font-size: 12px;
   font-weight: 700;
 }
 
 /* ── progress bar ── */
-.progress-bar-container {
+.tracking-page .progress-bar-container {
   height: 10px;
   width: 100%;
   background: #e2e8f0;
@@ -174,7 +174,7 @@
   overflow: hidden;
 }
 
-.progress-bar {
+.tracking-page .progress-bar {
   height: 100%;
   background: linear-gradient(90deg, rgb(8, 79, 45), rgb(25, 135, 84));
   border-radius: 50px;
@@ -182,17 +182,17 @@
 }
 
 /* ── "you are here" markers ── */
-.progress-step-markers {
+.tracking-page .progress-step-markers {
   display: flex;
   justify-content: space-between;
 }
 
-.progress-step-marker {
+.tracking-page .progress-step-marker {
   flex: 1;
   text-align: center;
 }
 
-.progress-step-marker-label {
+.tracking-page .progress-step-marker-label {
   font-size: 11px;
   color: rgb(25, 135, 84);
   font-weight: 600;
@@ -208,47 +208,47 @@
     padding: 0 12px;
   }
 
-  .tracking-card {
+  .tracking-page .tracking-card {
     padding: 18px 16px 24px;
     border-radius: 12px;
   }
 
-  .delivery-date {
+  .tracking-page .delivery-date {
     font-size: 18px;
   }
 
-  .tracking-product {
+  .tracking-page .tracking-product {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
     padding: 14px;
   }
 
-  .product-image {
+  .tracking-page .product-image {
     width: 100px;
     height: 100px;
   }
 
-  .progress-label {
+  .tracking-page .progress-label {
     font-size: 12px;
   }
 
-  .progress-dot {
+  .tracking-page .progress-dot {
     width: 24px;
     height: 24px;
   }
 }
 
 @media (max-width: 380px) {
-  .delivery-date {
+  .tracking-page .delivery-date {
     font-size: 16px;
   }
 
-  .progress-label {
+  .tracking-page .progress-label {
     font-size: 11px;
   }
 
-  .progress-step-marker-label {
-    display: none; /* too cramped on very small screens */
+  .tracking-page .progress-step-marker-label {
+    display: none;
   }
 }
