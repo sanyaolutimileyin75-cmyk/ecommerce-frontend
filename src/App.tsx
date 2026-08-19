@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
 import { HomePage } from './pages/home/HomePage';
 import { CheckoutPage } from './pages/checkout/CheckoutPage';
@@ -14,10 +14,15 @@ import { LoginPage } from './pages/admin/LoginPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { ManageCategories } from './pages/admin/ManageCategories';
 import { ProductDetailPage } from './pages/product/ProductDetailPage';
+import { Footer } from './components/Footer';       // ← ADD
 import './App.css';
 
 function App() {
   const [cart, setCart] = useState([]);
+  const location = useLocation();                    // ← ADD
+
+  // Hide footer on admin pages (cleaner admin UX)
+  const hideFooter = location.pathname.startsWith('/admin');
 
   const loadCart = async () => {
     const response = await axios.get('/api/cart-items?expand=product');
@@ -92,6 +97,9 @@ function App() {
           }
         />
       </Routes>
+
+      {/* Footer — hidden on admin pages */}
+      {!hideFooter && <Footer />}
     </div>
   );
 }

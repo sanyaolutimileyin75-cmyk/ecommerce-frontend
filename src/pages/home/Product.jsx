@@ -1,13 +1,15 @@
+// pages/home/Product.jsx
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { formatMoney } from '../../utils/money';
 import { getImageUrl } from '../../utils/imageUrl';
+import { useToast } from '../../context/ToastContext';   // ← ADD (1 of 3)
 import axios from 'axios';
 
 export function Product({ product, loadCart }) {
-  const [quantity, setQuantity]     = useState(1);
-  const [added, setAdded]           = useState(false);
-  const [isLoading, setIsLoading]   = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const { showToast } = useToast();                       // ← ADD (2 of 3)
 
   const addToCart = async () => {
     if (isLoading) return;
@@ -18,12 +20,10 @@ export function Product({ product, loadCart }) {
         quantity,
       });
       await loadCart();
-
-      /* show "Added" message for 2 seconds */
-      setAdded(true);
-      setTimeout(() => setAdded(false), 2000);
+      showToast(`${product.name} added to cart!`, 'success');   // ← ADD (3 of 3)
     } catch (error) {
       console.error('Failed to add to cart:', error);
+      showToast('Failed to add to cart. Please try again.', 'error');  // bonus
     } finally {
       setIsLoading(false);
     }
@@ -31,8 +31,6 @@ export function Product({ product, loadCart }) {
 
   return (
     <div className="product-container" data-testid="product-container">
-
-      {/* ── image (clickable) ── */}
       <Link
         to={`/product/${product.id}`}
         className="product-image-container product-link"
@@ -46,7 +44,6 @@ export function Product({ product, loadCart }) {
         />
       </Link>
 
-      {/* ── name (clickable) ── */}
       <Link
         to={`/product/${product.id}`}
         className="product-name limit-text-to-2-lines product-link"
@@ -54,7 +51,6 @@ export function Product({ product, loadCart }) {
         {product.name}
       </Link>
 
-      {/* ── rating ── */}
       <div className="product-rating-container">
         <img
           className="product-rating-stars"
@@ -67,12 +63,10 @@ export function Product({ product, loadCart }) {
         </div>
       </div>
 
-      {/* ── price ── */}
       <div className="product-price">
         {formatMoney(product.priceCents)}
       </div>
 
-      {/* ── quantity selector ── */}
       <div className="product-quantity-container">
         <select
           value={quantity}
@@ -87,17 +81,6 @@ export function Product({ product, loadCart }) {
 
       <div className="product-spacer" />
 
-      {/* ── added confirmation ── */}
-      <div
-        className="added-to-cart"
-        style={{ opacity: added ? 1 : 0 }}
-        aria-live="polite"
-      >
-        <img src={getImageUrl('images/icons/checkmark.png')} alt="" />
-        Added
-      </div>
-
-      {/* ── add to cart button ── */}
       <button
         className="add-to-cart-button button-primary"
         data-testid="add-to-cart-button"
@@ -107,7 +90,6 @@ export function Product({ product, loadCart }) {
       >
         {isLoading ? 'Adding...' : 'Add to Cart'}
       </button>
-
     </div>
   );
 }
